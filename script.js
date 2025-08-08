@@ -21,7 +21,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0xffffff, 1); // Weißer Hintergrund
 
-// === OrbitControls (Maussteuerung) ===
+// === OrbitControls ===
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
@@ -31,7 +31,7 @@ controls.target.set(0, 0, 0);
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
 
-// === Bodenplatte (Messestand) ===
+// === Bodenplatte ===
 let floorMesh = null;
 
 // === Fenstergröße anpassen ===
@@ -41,19 +41,21 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// === Render-Loop ===
+// === Animation ===
 function animate() {
   requestAnimationFrame(animate);
-  controls.update(); // OrbitControls aktualisieren
+  controls.update();
   renderer.render(scene, camera);
 }
 animate();
 
-// === Formular-Verarbeitung ===
+// === Formularverarbeitung ===
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('config-form');
+  const widthInput = document.getElementById('width');
+  const depthInput = document.getElementById('depth');
 
-  // ⛔ Enter-Taste verhindert Rücksetzen + löst direkt das Formular aus
+  // ⛔ Enter unterdrücken & als "Submit" behandeln
   form.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -61,16 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 📦 Bodenplatte erstellen/aktualisieren
+  // 📦 Messestand erstellen
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const width = parseFloat(document.getElementById('width').value);
-    const depth = parseFloat(document.getElementById('depth').value);
-    const height = 0.08; // Feste Bodenhöhe
+    const width = parseFloat(widthInput.value);
+    const depth = parseFloat(depthInput.value);
+    const height = 0.08; // feste Bodenhöhe
 
     if (width > 0 && depth > 0) {
-      // Alte Platte löschen
+      // Vorherige Platte entfernen
       if (floorMesh) {
         scene.remove(floorMesh);
         floorMesh.geometry.dispose();
@@ -78,17 +80,20 @@ document.addEventListener('DOMContentLoaded', () => {
         floorMesh = null;
       }
 
-      // Neue Platte erstellen
+      // Neue Bodenplatte
       const geometry = new THREE.BoxGeometry(width, height, depth);
       const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
       floorMesh = new THREE.Mesh(geometry, material);
       floorMesh.position.y = height / 2;
-
       scene.add(floorMesh);
 
-      // OrbitControls-Ziel auf neue Platte setzen
+      // Kamera-Fokus
       controls.target.set(0, height / 2, 0);
       controls.update();
+
+      // 🔐 Eingaben beibehalten (explizit zurücksetzen)
+      widthInput.value = width;
+      depthInput.value = depth;
     }
   });
 });
