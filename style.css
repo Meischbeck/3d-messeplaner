@@ -31,7 +31,7 @@ h2 {
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.ui-panel form {
+.ui-panel .form-block {
   display: flex;
   flex-direction: column;
   gap: 1rem;
