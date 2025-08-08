@@ -86,4 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       scene.add(floorMesh);
 
-      // OrbitControls-Zie
+      // OrbitControls-Ziel auf neue Platte setzen
+      controls.target.set(0, height / 2, 0);
+      controls.update();
+    }
+  });
+});
