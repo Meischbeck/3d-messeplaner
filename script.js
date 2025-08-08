@@ -61,3 +61,4 @@ form.addEventListener('submit', (e) => {
     cube.scale.set(width, height, depth);
   }
 });
+
