@@ -1,10 +1,12 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
-// === Szene & Kamera ===
+// Szene & Kamera
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 2, 10);
+camera.position.set(0, 2, 8);
+camera.lookAt(0, 0, 0);
 
+// Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: document.getElementById('scene'),
   antialias: true
@@ -13,21 +15,21 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0xffffff, 1);
 
-// === Licht ===
+// Licht
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
 
-// === Platzhalter für Bodenplatte ===
+// Bodenplatte (wird bei Klick erstellt)
 let floorMesh = null;
 
-// === Fenstergröße anpassen ===
+// Fenstergröße anpassen
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// === Animation ===
+// Animation
 function animate() {
   requestAnimationFrame(animate);
   if (floorMesh) floorMesh.rotation.y += 0.005;
@@ -35,14 +37,12 @@ function animate() {
 }
 animate();
 
-// === Formularverarbeitung ===
+// Formular-Verarbeitung
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('config-form');
 
   form.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-    }
+    if (e.key === 'Enter') e.preventDefault();
   });
 
   form.addEventListener('submit', (e) => {
@@ -50,23 +50,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const width = parseFloat(document.getElementById('width').value);
     const depth = parseFloat(document.getElementById('depth').value);
-    const height = 0.08; // Feste Bodenhöhe (80mm)
+    const height = 0.08; // Feste Bodenhöhe
 
     if (width > 0 && depth > 0) {
-      // Wenn bereits vorhanden: alten Boden löschen
+      // Alte Bodenplatte entfernen
       if (floorMesh) {
         scene.remove(floorMesh);
         floorMesh.geometry.dispose();
         floorMesh.material.dispose();
-        floorMesh = null;
       }
 
+      // Neue Bodenplatte erstellen
       const geometry = new THREE.BoxGeometry(width, height, depth);
       const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
       floorMesh = new THREE.Mesh(geometry, material);
-
-      // Auf den "Boden" setzen (nicht versenken)
-      floorMesh.position.y = height / 2;
+      floorMesh.position.y = height / 2; // auf den Boden stellen
 
       scene.add(floorMesh);
     }
