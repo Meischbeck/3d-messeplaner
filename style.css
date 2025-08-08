@@ -46,4 +46,42 @@ h2 {
 
 .ui-panel input,
 .ui-panel select {
-  paddi
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid #d1d1d6;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #1c1c1e;
+  transition: border 0.2s ease;
+}
+
+.ui-panel input:focus,
+.ui-panel select:focus {
+  border: 1px solid #007aff;
+  outline: none;
+}
+
+.ui-panel button {
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  background-color: #007aff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ui-panel button:hover {
+  background-color: #005ecb;
+}
+
+/* WICHTIG: Weißer Hintergrund für die 3D-Fläche */
+canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: 1;
+  background-color: #ffffff;
+}
