@@ -1,13 +1,13 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 
-// Szene & Kamera
+// === Szene & Kamera ===
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(4, 4, 8);
 camera.lookAt(0, 0, 0);
 
-// Renderer
+// === Renderer ===
 const renderer = new THREE.WebGLRenderer({
   canvas: document.getElementById('scene'),
   antialias: true
@@ -16,35 +16,35 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0xffffff, 1);
 
-// OrbitControls – Maussteuerung aktivieren
+// === OrbitControls (Maussteuerung) ===
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true; // weiche Bewegung
+controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.target.set(0, 0, 0); // Fokus auf Ursprung
+controls.target.set(0, 0, 0);
 
-// Licht
+// === Licht ===
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
 
-// Bodenplatte (wird bei Klick erstellt)
+// === Bodenplatte (Messestand) ===
 let floorMesh = null;
 
-// Fenstergröße anpassen
+// === Fenstergröße anpassen ===
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Animation (keine Rotation – nur Kamera)
+// === Haupt-Render-Loop ===
 function animate() {
   requestAnimationFrame(animate);
-  controls.update(); // wichtig für Maussteuerung
+  controls.update(); // Kamera-Steuerung aktualisieren
   renderer.render(scene, camera);
 }
 animate();
 
-// Formular-Verarbeitung
+// === Formular-Verarbeitung ===
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('config-form');
 
@@ -60,21 +60,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const height = 0.08; // Feste Bodenhöhe
 
     if (width > 0 && depth > 0) {
-      // Alte Platte löschen
+      // Alte Platte entfernen
       if (floorMesh) {
         scene.remove(floorMesh);
         floorMesh.geometry.dispose();
         floorMesh.material.dispose();
+        floorMesh = null;
       }
 
-      // Neue Bodenplatte
+      // Neue Bodenplatte erzeugen
       const geometry = new THREE.BoxGeometry(width, height, depth);
       const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
       floorMesh = new THREE.Mesh(geometry, material);
-      floorMesh.position.y = height / 2; // steht auf dem Boden
+      floorMesh.position.y = height / 2;
+
       scene.add(floorMesh);
 
-      // Kamera auf neue Mitte fokussieren
+      // Kamera-Ziel aktualisieren
       controls.target.set(0, height / 2, 0);
       controls.update();
     }
