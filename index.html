@@ -9,24 +9,24 @@
 <body>
   <div class="ui-panel">
     <h2>Messestand konfigurieren</h2>
-    <form id="config-form" onsubmit="return false;">
-  <label>Breite (m):<input type="number" id="width" placeholder="z. B. 5" /></label>
-  <label>Tiefe (m):<input type="number" id="depth" placeholder="z. B. 4" /></label>
-  <label>Bodenhöhe (fix):<span style="padding: 0.4rem 0; font-size: 1rem;">0.08 m</span></label>
-  <label>Kabinengröße (m²):<input type="number" id="boothSize" placeholder="z. B. 2" /></label>
-  <label>Standtyp:
-    <select id="boothType">
-      <option>Reihenstand</option>
-      <option>Eckstand</option>
-      <option>Kopfstand</option>
-      <option>Inselstand</option>
-    </select>
-  </label>
-  <button id="generate-button">Messestand erstellen</button>
-</form>
+    <div id="config-form" class="form-block">
+      <label>Breite (m):<input type="number" id="width" placeholder="z. B. 5" /></label>
+      <label>Tiefe (m):<input type="number" id="depth" placeholder="z. B. 4" /></label>
+      <label>Bodenhöhe (fix):<span style="padding: 0.4rem 0; font-size: 1rem;">0.08 m</span></label>
+      <label>Kabinengröße (m²):<input type="number" id="boothSize" placeholder="z. B. 2" /></label>
+      <label>Standtyp:
+        <select id="boothType">
+          <option>Reihenstand</option>
+          <option>Eckstand</option>
+          <option>Kopfstand</option>
+          <option>Inselstand</option>
+        </select>
+      </label>
+      <button id="generate-button">Messestand erstellen</button>
+    </div>
   </div>
 
   <canvas id="scene"></canvas>
-  <script src="script.js" type="module"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
