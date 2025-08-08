@@ -50,10 +50,37 @@ function animate() {
 animate();
 
 // === Formularverarbeitung ===
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('config-form');
-  const widthInput = document.getElementById('width');
-  const depthInput = document.getElementById('depth');
+const generateBtn = document.getElementById('generate-button');
+const widthInput = document.getElementById('width');
+const depthInput = document.getElementById('depth');
+
+generateBtn.addEventListener('click', () => {
+  const width = parseFloat(widthInput.value);
+  const depth = parseFloat(depthInput.value);
+  const height = 0.08;
+
+  if (width > 0 && depth > 0) {
+    if (floorMesh) {
+      scene.remove(floorMesh);
+      floorMesh.geometry.dispose();
+      floorMesh.material.dispose();
+      floorMesh = null;
+    }
+
+    const geometry = new THREE.BoxGeometry(width, height, depth);
+    const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
+    floorMesh = new THREE.Mesh(geometry, material);
+    floorMesh.position.y = height / 2;
+    scene.add(floorMesh);
+
+    controls.target.set(0, height / 2, 0);
+    controls.update();
+
+    widthInput.value = width;
+    depthInput.value = depth;
+  }
+});
+
 
   // ⛔ Enter unterdrücken & als "Submit" behandeln
   form.addEventListener('keydown', (e) => {
