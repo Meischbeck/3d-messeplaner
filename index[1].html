@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Messestandplaner</title>
+
+  <!-- Stylesheet für modernes UI -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Three.js + OrbitControls (klassisch, ohne Module) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.min.js"></script>
+</head>
+<body>
+  <div class="ui-panel">
+    <h2>Messestand konfigurieren</h2>
+    <div id="config-form" class="form-block">
+      <label>Breite (m):<input type="number" id="width" placeholder="z. B. 5" /></label>
+      <label>Tiefe (m):<input type="number" id="depth" placeholder="z. B. 4" /></label>
+      <label>Bodenhöhe (fix):<span style="padding: 0.4rem 0; font-size: 1rem;">0.08 m</span></label>
+      <label>Kabinengröße (m²):<input type="number" id="boothSize" placeholder="z. B. 2" /></label>
+      <label>Standtyp:
+        <select id="boothType">
+          <option>Reihenstand</option>
+          <option>Eckstand</option>
+          <option>Kopfstand</option>
+          <option>Inselstand</option>
+        </select>
+      </label>
+      <button id="generate-button">Messestand erstellen</button>
+    </div>
+  </div>
+
+  <!-- 3D-Bereich -->
+  <canvas id="scene"></canvas>
+
+  <!-- Dein JS (klassisch, kein type="module") -->
+  <script src="script.js"></script>
+</body>
+</html>
