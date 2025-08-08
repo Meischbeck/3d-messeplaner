@@ -49,7 +49,7 @@ function animate() {
 }
 animate();
 
-// === Formularverarbeitung ===
+// === Eingabeverarbeitung ===
 const generateBtn = document.getElementById('generate-button');
 const widthInput = document.getElementById('width');
 const depthInput = document.getElementById('depth');
@@ -57,7 +57,7 @@ const depthInput = document.getElementById('depth');
 generateBtn.addEventListener('click', () => {
   const width = parseFloat(widthInput.value);
   const depth = parseFloat(depthInput.value);
-  const height = 0.08;
+  const height = 0.08; // feste Bodenhöhe
 
   if (width > 0 && depth > 0) {
     if (floorMesh) {
@@ -79,48 +79,4 @@ generateBtn.addEventListener('click', () => {
     widthInput.value = width;
     depthInput.value = depth;
   }
-});
-
-
-  // ⛔ Enter unterdrücken & als "Submit" behandeln
-  form.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      form.dispatchEvent(new Event('submit'));
-    }
-  });
-
-  // 📦 Messestand erstellen
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const width = parseFloat(widthInput.value);
-    const depth = parseFloat(depthInput.value);
-    const height = 0.08; // feste Bodenhöhe
-
-    if (width > 0 && depth > 0) {
-      // Vorherige Platte entfernen
-      if (floorMesh) {
-        scene.remove(floorMesh);
-        floorMesh.geometry.dispose();
-        floorMesh.material.dispose();
-        floorMesh = null;
-      }
-
-      // Neue Bodenplatte
-      const geometry = new THREE.BoxGeometry(width, height, depth);
-      const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
-      floorMesh = new THREE.Mesh(geometry, material);
-      floorMesh.position.y = height / 2;
-      scene.add(floorMesh);
-
-      // Kamera-Fokus
-      controls.target.set(0, height / 2, 0);
-      controls.update();
-
-      // 🔐 Eingaben beibehalten (explizit zurücksetzen)
-      widthInput.value = width;
-      depthInput.value = depth;
-    }
-  });
 });
