@@ -48,3 +48,19 @@ function animate() {
 }
 
 animate();
+
+// === Formular-Verarbeitung ===
+const form = document.getElementById('config-form');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  // Eingabewerte holen
+  const width = parseFloat(document.getElementById('width').value);
+  const depth = parseFloat(document.getElementById('depth').value);
+  const height = parseFloat(document.getElementById('wallHeight').value);
+
+  // Würfel skalieren (Breite = X, Höhe = Y, Tiefe = Z)
+  cube.scale.set(width / 2, height / 2, depth / 2);
+});
+
