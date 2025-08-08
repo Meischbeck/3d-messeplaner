@@ -5,6 +5,7 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 
 const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('scene') });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0xffffff);
 document.body.appendChild(renderer.domElement);
 
 const light = new THREE.AmbientLight(0xffffff, 1);
