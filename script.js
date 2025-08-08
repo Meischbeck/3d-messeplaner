@@ -3,7 +3,12 @@ import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/exampl
 
 // === Szene & Kamera ===
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
 camera.position.set(4, 4, 8);
 camera.lookAt(0, 0, 0);
 
@@ -14,13 +19,13 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setClearColor(0xffffff, 1);
+renderer.setClearColor(0xffffff, 1); // Weißer Hintergrund
 
 // === OrbitControls (Maussteuerung) ===
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.target.set(0, 0, 0);
+controls.target.set(0, 0, 0); // Fokus auf Szene
 
 // === Licht ===
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
@@ -36,10 +41,10 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// === Haupt-Render-Loop ===
+// === Animation – ohne automatische Rotation ===
 function animate() {
   requestAnimationFrame(animate);
-  controls.update(); // Kamera-Steuerung aktualisieren
+  controls.update(); // nur Maussteuerung
   renderer.render(scene, camera);
 }
 animate();
@@ -76,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       scene.add(floorMesh);
 
-      // Kamera-Ziel aktualisieren
+      // Kamera-Fokus aktualisieren
       controls.target.set(0, height / 2, 0);
       controls.update();
     }
