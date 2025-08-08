@@ -1,15 +1,32 @@
-<form id="config-form">
-  <label>Breite (m):<input type="number" id="width" placeholder="z. B. 5" /></label>
-  <label>Tiefe (m):<input type="number" id="depth" placeholder="z. B. 4" /></label>
-  <label>Bodenhöhe (fix):<span style="padding: 0.4rem 0; font-size: 1rem;">0.08 m</span></label>
-  <label>Kabinengröße (m²):<input type="number" id="boothSize" placeholder="z. B. 2" /></label>
-  <label>Standtyp:
-    <select id="boothType">
-      <option>Reihenstand</option>
-      <option>Eckstand</option>
-      <option>Kopfstand</option>
-      <option>Inselstand</option>
-    </select>
-  </label>
-  <button type="submit">Messestand erstellen</button>
-</form>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Messestandplaner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ui-panel">
+    <h2>Messestand konfigurieren</h2>
+    <form id="config-form">
+      <label>Breite (m):<input type="number" id="width" placeholder="z. B. 5" /></label>
+      <label>Tiefe (m):<input type="number" id="depth" placeholder="z. B. 4" /></label>
+      <label>Bodenhöhe (fix):<span style="padding: 0.4rem 0; font-size: 1rem;">0.08 m</span></label>
+      <label>Kabinengröße (m²):<input type="number" id="boothSize" placeholder="z. B. 2" /></label>
+      <label>Standtyp:
+        <select id="boothType">
+          <option>Reihenstand</option>
+          <option>Eckstand</option>
+          <option>Kopfstand</option>
+          <option>Inselstand</option>
+        </select>
+      </label>
+      <button type="submit">Messestand erstellen</button>
+    </form>
+  </div>
+
+  <canvas id="scene"></canvas>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
