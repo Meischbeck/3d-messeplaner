@@ -54,12 +54,23 @@ const generateBtn = document.getElementById('generate-button');
 const widthInput = document.getElementById('width');
 const depthInput = document.getElementById('depth');
 
-generateBtn.addEventListener('click', () => {
+// 🧪 Debug-Check
+if (!generateBtn) {
+  console.error('❌ Button mit ID "generate-button" nicht gefunden!');
+}
+if (!widthInput || !depthInput) {
+  console.error('❌ Eingabefelder "width" oder "depth" nicht gefunden!');
+}
+
+generateBtn?.addEventListener('click', () => {
   const width = parseFloat(widthInput.value);
   const depth = parseFloat(depthInput.value);
   const height = 0.08; // feste Bodenhöhe
 
+  console.log('🔹 Werte:', { width, depth, height });
+
   if (width > 0 && depth > 0) {
+    // Vorherige Bodenplatte entfernen
     if (floorMesh) {
       scene.remove(floorMesh);
       floorMesh.geometry.dispose();
@@ -67,16 +78,19 @@ generateBtn.addEventListener('click', () => {
       floorMesh = null;
     }
 
+    // Neue Bodenplatte erzeugen
     const geometry = new THREE.BoxGeometry(width, height, depth);
     const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
     floorMesh = new THREE.Mesh(geometry, material);
     floorMesh.position.y = height / 2;
     scene.add(floorMesh);
 
+    // Kamera-Fokus anpassen
     controls.target.set(0, height / 2, 0);
     controls.update();
 
-    widthInput.value = width;
-    depthInput.value = depth;
+    console.log('✅ Bodenplatte erzeugt!');
+  } else {
+    console.warn('⚠️ Ungültige Eingaben – bitte prüfen.');
   }
 });
