@@ -25,7 +25,7 @@ renderer.setClearColor(0xffffff, 1); // Weißer Hintergrund
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.target.set(0, 0, 0); // Fokus auf Szene
+controls.target.set(0, 0, 0);
 
 // === Licht ===
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
@@ -41,10 +41,10 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// === Animation – ohne automatische Rotation ===
+// === Render-Loop ===
 function animate() {
   requestAnimationFrame(animate);
-  controls.update(); // nur Maussteuerung
+  controls.update(); // OrbitControls aktualisieren
   renderer.render(scene, camera);
 }
 animate();
@@ -53,10 +53,15 @@ animate();
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('config-form');
 
+  // ⛔ Enter-Taste verhindert Rücksetzen + löst direkt das Formular aus
   form.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') e.preventDefault();
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      form.dispatchEvent(new Event('submit'));
+    }
   });
 
+  // 📦 Bodenplatte erstellen/aktualisieren
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -65,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const height = 0.08; // Feste Bodenhöhe
 
     if (width > 0 && depth > 0) {
-      // Alte Platte entfernen
+      // Alte Platte löschen
       if (floorMesh) {
         scene.remove(floorMesh);
         floorMesh.geometry.dispose();
@@ -73,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         floorMesh = null;
       }
 
-      // Neue Bodenplatte erzeugen
+      // Neue Platte erstellen
       const geometry = new THREE.BoxGeometry(width, height, depth);
       const material = new THREE.MeshStandardMaterial({ color: 0x0077ff });
       floorMesh = new THREE.Mesh(geometry, material);
@@ -81,9 +86,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
       scene.add(floorMesh);
 
-      // Kamera-Fokus aktualisieren
-      controls.target.set(0, height / 2, 0);
-      controls.update();
-    }
-  });
-});
+      // OrbitControls-Zie
